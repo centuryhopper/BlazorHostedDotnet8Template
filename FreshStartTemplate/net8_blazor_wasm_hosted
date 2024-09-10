@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+arg=${1:-"blazor_hosted_project_net8"}
+if [ -d "$arg" ]; then
+    echo "A project with the name of $arg already exists. Please choose a different name"
+else
+    mkdir $arg
+    cd $arg
+    /usr/bin/dotnet new blazorwasm -o Client
+    /usr/bin/dotnet new webapi --use-controllers -o Server
+    /usr/bin/dotnet new classlib -n Shared
+
+    # overwrite controller and program.cs in the server
+    cp -f ../Server/Controllers/* ./Server/Controllers/
+    cp -f ../Server/Program.cs ./Server/
+    cp -f ../Server/Server.csproj ./Server/
+
+    # remove original one and add the correct one to shared folder
+    rm -f ./Server/WeatherForecast.cs
+    cd ./Shared && mkdir Models && cd ..
+    cp -f ../Shared/Models/* ./Shared/Models/
+
+    # overwrite files in the client
+    cp -f ../Client/Client.csproj ./Client/
+    cp -f ../Client/Pages/Weather.razor ./Client/Pages/
+    cp -f ../Client/_Imports.razor ./Client/
+
+    # # copy remaining necessary files over
+    cp ../deploy ./
+    cp ../run ./
+    cp ../db_structure_outline.sql ./
+
+    echo -e "DONE ^_^"
+fi
+
+
