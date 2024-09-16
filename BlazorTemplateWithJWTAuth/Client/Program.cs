@@ -8,6 +8,7 @@ using Client.Interfaces;
 using Client.Services;
 using Client.Handlers;
 using Client.Utils;
+using Blazored.SessionStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -32,6 +33,8 @@ builder.Services.AddScoped(
 );
 
 builder.Services.AddBlazoredLocalStorageAsSingleton();
+builder.Services.AddBlazoredSessionStorage();
+
 
 
 builder.Services.AddBlazorBootstrap();
