@@ -1,0 +1,11 @@
+
+In this example, I use a razor class library to demonstrate how to build a nuget package but this works for other project types as well such as your traditional C# class libraries.
+
+to generate a nuget package:
+  dotnet pack
+
+to publish a nuget package (you must create an account on nuget.org and generate an api key. Be sure to save your api somewhere safe and secure):
+  dotnet nuget push bin/Release/YourNugetPackage.1.0.0.nupkg -s nuget.org -k [your_api_key]
+
+
+
